@@ -1,0 +1,37 @@
+# Node modules
+node_modules/
+
+# TypeScript build output
+dist/
+out/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# dotenv
+.env
+.env.local
+.env.*.local
+
+# Editor configs
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# TypeScript project cache
+*.tsbuildinfo
+
+# Coverage reports
+coverage/
+
+# Prisma artifacts (אם תעבדי עם SQLite)
+prisma/dev.db
+prisma/dev.db-journal
+
+# ZIPs, archives
+*.zip

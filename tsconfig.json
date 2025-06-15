@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "target": "ES5",
+      "module": "CommonJS",
+      "outDir": "out",
+      "rootDir": "src",
+      "sourceMap": true,
+      "strict": true,
+      "esModuleInterop": true
+    }
+}
+  
