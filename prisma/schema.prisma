@@ -1,0 +1,201 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// ----- Enums -----
+enum Role {
+  student
+  content_manager
+  admin
+  org_admin
+}
+
+enum OrganizationType {
+  seminary
+  college
+  school
+}
+
+enum Level {
+  beginner
+  elementary
+  pre_intermediate
+  intermediate
+  upper_intermediate
+}
+
+enum QuestionType {
+  multiple_choice
+  fill_blank
+  drag_drop
+  ordering
+}
+
+enum ProgressStatus {
+  not_started
+  in_progress
+  completed
+}
+
+// ----- Models -----
+model Organization {
+  id                String   @id @default(uuid())
+  name              String
+  type              OrganizationType
+  maxUsers          Int
+  currentUsers      Int
+  subscriptionStart DateTime
+  subscriptionEnd   DateTime
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+
+  users             User[]
+}
+
+model User {
+  id             String   @id @default(uuid())
+  identityNumber String   @unique
+  email          String   @unique
+  passwordHash   String
+  firstName      String
+  lastName       String
+  role           Role
+  organizationId String
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  lastLogin      DateTime?
+
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  progresses     UserProgress[]
+  videoViews     VideoView[]
+  quizAttempts   QuizAttempt[]
+}
+
+model Lesson {
+  id                 String   @id @default(uuid())
+  title              String
+  description        String
+  level              Level
+  orderInLevel       Int
+  estimatedDuration  Int
+  learningObjectives Json
+  isActive           Boolean  @default(true)
+  createdAt          DateTime @default(now())
+
+  videos             Video[]
+  quizzes            Quiz[]
+  progresses         UserProgress[]
+}
+
+model Video {
+  id             String   @id @default(uuid())
+  title          String
+  description    String
+  fileUrl        String
+  thumbnailUrl   String
+  duration       Int
+  level          Level
+  orderInLesson  Int
+  transcript     String
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+
+  lessonId       String
+  lesson         Lesson   @relation(fields: [lessonId], references: [id])
+  views          VideoView[]
+}
+
+model Quiz {
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  timeLimit    Int
+  passingScore Int
+  maxAttempts  Int
+  isFinalExam  Boolean
+  createdAt    DateTime @default(now())
+
+  lessonId     String
+  lesson       Lesson   @relation(fields: [lessonId], references: [id])
+  questions    Question[]
+  attempts     QuizAttempt[]
+}
+
+model Question {
+  id            String   @id @default(uuid())
+  questionText  String
+  questionType  QuestionType
+  options       Json
+  correctAnswer Json
+  explanation   String
+  hints         Json
+  points        Int
+  orderInQuiz   Int
+
+  quizId        String
+  quiz          Quiz     @relation(fields: [quizId], references: [id])
+}
+
+model UserProgress {
+  id                   String   @id @default(uuid())
+  status               ProgressStatus
+  completionPercentage Int
+  startedAt            DateTime
+  completedAt          DateTime?
+  totalTimeSpent       Int
+
+  userId               String
+  lessonId             String
+
+  user                 User     @relation(fields: [userId], references: [id])
+  lesson               Lesson   @relation(fields: [lessonId], references: [id])
+}
+
+model VideoView {
+  id              String   @id @default(uuid())
+  watchPercentage Int
+  totalWatchTime  Int
+  completed       Boolean
+  lastPosition    Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  userId          String
+  videoId         String
+
+  user            User     @relation(fields: [userId], references: [id])
+  video           Video    @relation(fields: [videoId], references: [id])
+}
+
+model QuizAttempt {
+  id             String   @id @default(uuid())
+  attemptNumber  Int
+  score          Int
+  totalQuestions Int
+  correctAnswers Int
+  timeTaken      Int
+  answers        Json
+  passed         Boolean
+  startedAt      DateTime
+  completedAt    DateTime
+
+  userId         String
+  quizId         String
+
+  user           User     @relation(fields: [userId], references: [id])
+  quiz           Quiz     @relation(fields: [quizId], references: [id])
+}

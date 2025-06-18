@@ -1,37 +1,40 @@
 # Node modules
 node_modules/
 
-# TypeScript build output
+# Build output
 dist/
 out/
+*.tsbuildinfo
 
 # Logs
 logs/
 *.log
 npm-debug.log*
 
-# dotenv
+# dotenv files
 .env
 .env.local
 .env.*.local
 
-# Editor configs
+# IDE settings
 .vscode/
 .idea/
 
-# System files
+# OS files
 .DS_Store
 Thumbs.db
 
-# TypeScript project cache
-*.tsbuildinfo
-
-# Coverage reports
+# Coverage
 coverage/
 
-# Prisma artifacts (אם תעבדי עם SQLite)
+# Prisma generated client
+/src/generated/prisma/
+
+# Prisma local databases (if ever used SQLite)
 prisma/dev.db
 prisma/dev.db-journal
 
-# ZIPs, archives
-*.zip
+# Docker files (optional)
+docker-compose.override.yml
+*.pid
+*.sock
