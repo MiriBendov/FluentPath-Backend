@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-// import { PrismaClient } from '../src/generated/prisma'
-=======
 // import { PrismaClient } from "@prisma/client";
->>>>>>> feature/upload-video-s3-new
 // const prisma = new PrismaClient()
 import { prisma } from '../src/db/db';
 import bcrypt from 'bcryptjs';
