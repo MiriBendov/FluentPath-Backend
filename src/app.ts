@@ -1,5 +1,9 @@
 import express from "express";
 import cors from "cors";
+import video_router from "./routes/video_router";
+import lessonsRouter from "./routes/lessons_router";
+import errorHandler from "./middlewares/errorHandler";
+
 
 const app = express();
 
@@ -9,5 +13,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.send("API is working");
 });
+app.use("/upload", video_router);
+app.use("/lessons", lessonsRouter);
 
+app.use(errorHandler);
 export default app;

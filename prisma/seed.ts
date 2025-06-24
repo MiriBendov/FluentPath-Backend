@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // import { PrismaClient } from '../src/generated/prisma'
+=======
+// import { PrismaClient } from "@prisma/client";
+>>>>>>> feature/upload-video-s3-new
 // const prisma = new PrismaClient()
 import { prisma } from '../src/db/db';
 import bcrypt from 'bcryptjs';
@@ -22,7 +26,7 @@ async function main() {
     data: {
       identityNumber: '123456789',
       email: 'admin@demo.com',
-      passwordHash: 'hashed_password_123',
+      passwordHash: await bcrypt.hash('temp_password',10),
       firstName: 'Admin',
       lastName: 'User',
       role: 'admin',

@@ -1,29 +1,29 @@
-import { Router} from "express";
+import { Router, Request, Response } from "express";
 import { PrismaClient} from "@prisma/client";
 
 const router = Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
+router.get("/", async (req: Request, res: Response) => {
     const { level, status, user_id } = req.query;
+
     if (!level || !status || !user_id) {
-        return res.status(400).json({ error: "Missing required query parameters" });
+        res.status(400).json({ error: "Missing required query parameters" });
+        return;
     }
-    
+
     try {
         const lessons = await prisma.lesson.findMany({
             where: {
-                level: level as any, // אם תרצי אפשר להמיר ל: level: level as Level
+                level: level as any,
                 progresses: {
                     some: {
                         userId: user_id as string,
-                        status: status as any, // אפשר גם: status: status as ProgressStatus
+                        status: status as any,
                     }
                 }
             },
-            include: {
-                progresses: true, // אם את רוצה גם את ההתקדמויות שיחזרו איתן
-            }
+            include: { progresses: true },
         });
 
         res.json(lessons);
