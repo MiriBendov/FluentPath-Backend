@@ -1,5 +1,7 @@
-import { PrismaClient } from '../src/generated/prisma'
-const prisma = new PrismaClient()
+// import { PrismaClient } from '../src/generated/prisma'
+// const prisma = new PrismaClient()
+import { prisma } from '../src/db/db';
+import bcrypt from 'bcryptjs';
 
 async function main() {
   // יצירת ארגון
