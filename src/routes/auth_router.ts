@@ -1,5 +1,6 @@
-import { Router } from "express";
+import { Router,RequestHandler  } from "express";
 import { loginSchema } from "../validation/auth";
+import { validateLogin } from "../middlewares/validateLogin";
 
 const router = Router();
 
@@ -10,21 +11,25 @@ function checkUser(identity_number: string, password: string): "ok" | "invalid_i
     return "ok";
 }
 
-router.post("/login", (req, res) => {
-    const { error } = loginSchema.validate(req.body);
-    if (error) {
-        return res.status(400).json({error: "Validation error: " + error.details[0].message });
-    }
-    const { identity_number, password } = req.body;
+const loginHandler: RequestHandler = async (req, res, next) => {
+    try {
+        const { identity_number, password } = req.body;
 
-   const checkResult = checkUser(identity_number, password);
-    if (checkResult === "invalid_id") {
-        return res.status(401).json({ error: "Invalid identity number" });
-    }
-    if (checkResult === "invalid_password") {
-        return res.status(401).json({ error: "Invalid password" });
-    }
-    res.status(200).json({ message: "Login successful" });
-});
+        const checkResult = checkUser(identity_number, password);
+        if (checkResult === "invalid_id") {
+            res.status(401).json({ error: "Invalid identity number" });
+            return;
+        }
+        if (checkResult === "invalid_password") {
+            res.status(401).json({ error: "Invalid password" });
+            return;
+        }
 
+        res.status(200).json({ message: "Login successful" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+router.post("/", validateLogin, loginHandler);
 export default router;
