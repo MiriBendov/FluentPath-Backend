@@ -4,7 +4,7 @@ import { uploadToS3 } from "../services/s3"; //כדי להעלות ל-S3, יש �
 import { PrismaClient } from "@prisma/client";
 import { createVideo } from "../services/videoService";
 import { upload } from "../utils/multerConfig"
-import { validateVideo } from "../validation/video"
+import { validateVideo } from "../middlewares/validateVideo";
 
 
 const router = Router();
