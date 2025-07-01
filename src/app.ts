@@ -14,7 +14,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.send("API is working");
 });
-app.use("/upload", video_router);
+app.use("/api/v1/videos", video_router);
 app.use("/lessons", lessonsRouter);
 app.use("/api/v1/auth", passwordResetRouter);
 
