@@ -3,7 +3,19 @@
 import { prisma } from '../src/db/db';
 import bcrypt from 'bcryptjs';
 
+
+
 async function main() {
+
+  await prisma.question.deleteMany();
+await prisma.quiz.deleteMany();
+await prisma.video.deleteMany();
+await prisma.lesson.deleteMany();
+await prisma.passwordResetToken.deleteMany(); // הוספתי את זה - חשוב מאוד
+await prisma.user.deleteMany();
+await prisma.organization.deleteMany();
+
+
   // יצירת ארגון
   const org = await prisma.organization.create({
     data: {
@@ -20,11 +32,35 @@ async function main() {
   // יצירת משתמש admin
   await prisma.user.create({
     data: {
-      identityNumber: '123456789',
+      identityNumber: '113456789',
       email: 'admin@demo.com',
       passwordHash: await bcrypt.hash('temp_password',10),
       firstName: 'Admin',
       lastName: 'User',
+      role: 'admin',
+      organizationId: org.id,
+    },
+  })
+  //יצרית משתמש לדוגמא עם מייל זמין
+  // await prisma.user.create({
+  //   data: {
+  //     identityNumber: '987654321',
+  //     email: 'miri09743@gmail.com',
+  //     passwordHash: await bcrypt.hash('temp_password',10),
+  //     firstName: 'miri',
+  //     lastName: 'ben dov',
+  //     role: 'admin',
+  //     organizationId: org.id,
+  //   },
+  // })
+
+  await prisma.user.create({
+    data: {
+      identityNumber: '987654321',
+      email: 'yael79996@gmail.com',
+      passwordHash: await bcrypt.hash('temp_password',10),
+      firstName: 'yael',
+      lastName: 'koren',
       role: 'admin',
       organizationId: org.id,
     },
