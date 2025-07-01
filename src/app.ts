@@ -15,7 +15,8 @@ app.get("/", (req, res) => {
     res.send("API is working");
 });
 app.use("/api/v1/videos", video_router);
-app.use("/lessons", lessonsRouter);
+
+app.use("/api/v1/lessons", lessonsRouter);
 app.use("/api/v1/auth", passwordResetRouter);
 
 app.use(errorHandler);
