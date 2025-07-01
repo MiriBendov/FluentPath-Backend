@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { createVideoSchema, updateVideoSchema } from "../utils/validation/video.schema";
-import { createVideoService, updateVideoService } from "../services/video.service";
+import { createVideoService, updateVideoService, deleteVideoService } from "../services/video.service";
 import { ApiError } from "../utils/ApiError";
 
 export const createVideo = async (req: Request, res: Response, next: NextFunction) => {
@@ -24,6 +24,15 @@ export const updateVideo = async (req: Request, res: Response, next: NextFunctio
         }
         const video = await updateVideoService(req.params.id, value);
         res.status(200).json({ message: "Video updated", video });
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const deleteVideo = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await deleteVideoService(req.params.id);
+        res.status(200).json({ message: "Video deleted successfully" });
     } catch (err) {
         next(err);
     }

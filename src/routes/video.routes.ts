@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createVideo, updateVideo } from "../controllers/video.controller";
+import { createVideo, updateVideo, deleteVideo } from "../controllers/video.controller";
 import { authenticateToken, authorizeRoles } from "../middlewares/auth.middleware";
 
 const router = Router();
@@ -16,6 +16,13 @@ router.put(
     authenticateToken,
     authorizeRoles("content_manager", "admin"),
     updateVideo
+);
+
+router.delete(
+    "/:id",
+    authenticateToken,
+    authorizeRoles("admin"),
+    deleteVideo
 );
 
 export default router;

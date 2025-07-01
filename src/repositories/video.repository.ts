@@ -20,3 +20,10 @@ export const updateVideo = async (id: string, data: any) => {
         data,
     });
 };
+
+export const softDeleteVideo = async (id: string) => {
+    return prisma.video.update({
+        where: { id },
+        data: { isActive: false },
+    });
+};

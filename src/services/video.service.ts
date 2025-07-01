@@ -1,6 +1,5 @@
-import { createVideo, updateVideo } from "../repositories/video.repository";
+import { createVideo, updateVideo, softDeleteVideo } from "../repositories/video.repository";
 import { validateLessonExists, validateVideoExists } from "../utils/validation/video.logic";
-import { ApiError } from "../utils/ApiError";
 
 export const createVideoService = async (data: any) => {
     await validateLessonExists(data.lessonId);
@@ -15,4 +14,9 @@ export const updateVideoService = async (id: string, data: any) => {
     }
 
     return updateVideo(id, data);
+};
+
+export const deleteVideoService = async (id: string) => {
+    await validateVideoExists(id);
+    return softDeleteVideo(id);
 };

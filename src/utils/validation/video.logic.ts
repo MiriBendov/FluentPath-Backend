@@ -11,7 +11,7 @@ export const validateLessonExists = async (lessonId: string) => {
 
 export const validateVideoExists = async (videoId: string) => {
     const video = await findVideoById(videoId);
-    if (!video) {
+    if (!video || video.isActive === false) {
         throw new ApiError(404, "Video not found");
     }
     return video;
