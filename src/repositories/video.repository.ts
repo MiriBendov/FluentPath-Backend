@@ -9,3 +9,14 @@ export const findLessonById = async (lessonId: string) => {
         where: { id: lessonId },
     });
 };
+
+export const findVideoById = async (id: string) => {
+    return prisma.video.findUnique({ where: { id } });
+};
+
+export const updateVideo = async (id: string, data: any) => {
+    return prisma.video.update({
+        where: { id },
+        data,
+    });
+};

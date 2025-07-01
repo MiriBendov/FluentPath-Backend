@@ -12,7 +12,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.send("API is working");
 });
-app.use("/api/v1", videoRoutes);
+app.use("/api/v1/videos", videoRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

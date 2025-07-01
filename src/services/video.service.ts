@@ -1,12 +1,18 @@
+import { createVideo, updateVideo } from "../repositories/video.repository";
+import { validateLessonExists, validateVideoExists } from "../utils/validation/video.logic";
 import { ApiError } from "../utils/ApiError";
-import { createVideo, findLessonById } from "../repositories/video.repository";
 
 export const createVideoService = async (data: any) => {
-    const lesson = await findLessonById(data.lessonId);
-    if (!lesson) {
-        throw new ApiError(400, "Lesson with the given ID does not exist");
-    }
-    
+    await validateLessonExists(data.lessonId);
     return createVideo(data);
 };
 
+export const updateVideoService = async (id: string, data: any) => {
+    await validateVideoExists(id);
+
+    if (data.lessonId) {
+        await validateLessonExists(data.lessonId);
+    }
+
+    return updateVideo(id, data);
+};
