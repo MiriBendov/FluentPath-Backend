@@ -1,9 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import { VideoRepository } from "../repository/videoRepository";
 
-const prisma = new PrismaClient();
-
-export const createVideo = async (videoData: any) => {
-    return await prisma.video.create({
-        data: videoData,
-    });
+export const VideoService = {
+    async uploadVideo(videoData: any) {
+       
+        return VideoRepository.createVideo(videoData);
+    }
 };
