@@ -1,0 +1,18 @@
+import { Request, Response, NextFunction } from "express";
+import { LessonService } from "../services/lessonService";
+
+export const getLessons = async (req: Request, res: Response, next: NextFunction) => {
+    const { level, status, user_id } = req.query;
+
+    if (!level || !status || !user_id) {
+        res.status(400).json({ error: "Missing required query parameters" });
+        return ;
+    }
+
+    try {
+        const lessons = await LessonService.getLessons(level as string, status as string, user_id as string);
+        res.json(lessons);
+    } catch (error) {
+    next(error);
+}
+};

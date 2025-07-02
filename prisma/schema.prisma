@@ -82,6 +82,7 @@ model User {
   progresses     UserProgress[]
   videoViews     VideoView[]
   quizAttempts   QuizAttempt[]
+  passwordResetTokens PasswordResetToken[]
 }
 
 model Lesson {
@@ -197,4 +198,14 @@ model QuizAttempt {
 
   user           User     @relation(fields: [userId], references: [id])
   quiz           Quiz     @relation(fields: [quizId], references: [id])
+}
+model PasswordResetToken {
+  id           String   @id @default(uuid())
+  userId       String
+  tokenHash    String
+  expiresAt    DateTime
+  used         Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id])
 }
