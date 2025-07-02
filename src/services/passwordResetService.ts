@@ -4,8 +4,8 @@ import { sendResetEmail } from "../services/emailService";
 import { PasswordResetRepository } from "../repository/passwordResetRepository";
 
 export const PasswordResetService = {
-    async forgotPassword(email: string) {
-        const user = await PasswordResetRepository.findUserByEmail(email);
+    async forgotPassword(identity_number: string) {
+        const user = await PasswordResetRepository.findUserByIdentity(identity_number);
         if (!user) return;
 
         const token = crypto.randomBytes(32).toString("hex");

@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const PasswordResetRepository = {
-    findUserByEmail: (email: string) => prisma.user.findUnique({ where: { email } }),
+    findUserByIdentity: (identity_number: string) => prisma.user.findUnique({ where: { identityNumber: identity_number } }),
 
     createResetToken: (userId: string, tokenHash: string, expiresAt: Date) =>
         prisma.passwordResetToken.create({

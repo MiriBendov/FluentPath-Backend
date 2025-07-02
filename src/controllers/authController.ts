@@ -1,6 +1,6 @@
 import { Router,RequestHandler  } from "express";
 import { AuthService } from "../services/authService";
-export const loginHandler: RequestHandler = async (req, res, next) => {
+export const loginController: RequestHandler = async (req, res, next) => {
     try {
         const { identity_number, password } = req.body;
          const checkResult = AuthService.checkUser(identity_number, password);

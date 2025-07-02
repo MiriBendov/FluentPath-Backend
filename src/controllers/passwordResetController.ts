@@ -4,8 +4,8 @@ import { PasswordResetService } from "../services/passwordResetService";
 export const PasswordResetController = {
     async forgotPassword(req: Request, res: Response, next: NextFunction) {
         try {
-            const { email } = req.body;
-            await PasswordResetService.forgotPassword(email);
+            const { identity_number } = req.body;
+            await PasswordResetService.forgotPassword(identity_number);
 
             res.status(200).json({ message: "If the email exists, a reset link has been sent." });
         } catch (err) {

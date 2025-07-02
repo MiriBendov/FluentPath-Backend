@@ -1,9 +1,9 @@
 import { Router,RequestHandler  } from "express";
 import { loginSchema } from "../validation/auth";
 import { validate } from "../middlewares/validate";
-import { loginHandler } from "../controllers/authController";
+import { loginController } from "../controllers/authController";
 
 
 const router = Router();
-router.post("/", validate(loginSchema), loginHandler);
+router.post("/", validate(loginSchema), loginController);
 export default router;
