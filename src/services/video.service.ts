@@ -1,12 +1,13 @@
 import { createVideo, updateVideo, softDeleteVideo } from "../repositories/video.repository";
 import { validateLessonExists, validateVideoExists } from "../utils/validation/video.logic";
+import { CreateVideoInput, UpdateVideoInput } from "../types/video";
 
-export const createVideoService = async (data: any) => {
+export const createVideoService = async (data: CreateVideoInput) => {
     await validateLessonExists(data.lessonId);
     return createVideo(data);
 };
 
-export const updateVideoService = async (id: string, data: any) => {
+export const updateVideoService = async (id: string, data: UpdateVideoInput) => {
     await validateVideoExists(id);
 
     if (data.lessonId) {

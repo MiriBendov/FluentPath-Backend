@@ -15,7 +15,7 @@ export const createVideoSchema = Joi.object({
   ).required(),
   lessonId: Joi.string().uuid().required(),
   orderInLesson: Joi.number().integer().min(1).required(),
-  transcript: Joi.string().allow('', null)
+  transcript: Joi.string().required()
 });
 
 export const updateVideoSchema = Joi.object({
@@ -33,5 +33,5 @@ export const updateVideoSchema = Joi.object({
   ),
   lessonId: Joi.string().uuid(),
   orderInLesson: Joi.number().integer().min(1),
-  transcript: Joi.string().allow('', null)
+  transcript: Joi.string()
 }).min(1);
