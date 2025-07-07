@@ -6,7 +6,8 @@ export const LessonController = {
         const { level, status, user_id } = req.query;
 
         if (!level || !status || !user_id) {
-            return res.status(400).json({ error: "Missing required query parameters" });
+            res.status(400).json({ error: "Missing required query parameters" });
+            return ;
         }
 
         try {
