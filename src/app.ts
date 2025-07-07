@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import lessonsRouter from "./routes/lessons_router";
+import { lessonsRouter } from "./routes/lessons.router";
 import errorHandler from "./middlewares/errorHandler";
 
 
@@ -13,9 +13,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.send("API is working");
 });
-
-
 app.use("/api/v1/lessons", lessonsRouter);
+
+
 
 
 app.use(errorHandler);
