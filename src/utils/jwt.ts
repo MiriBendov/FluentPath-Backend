@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "../config";
+import { ApiError } from "../utils/ApiError";
 
 export const generateAccessToken = (user: any) => {
     return jwt.sign(
@@ -21,7 +22,7 @@ export const verifyRefreshToken = (refreshToken: string): any => {
     try {
         return jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
     } catch (err) {
-        throw { status: 403, message: "Invalid refresh token" };
+        throw new ApiError(403, "Invalid refresh token");
     }
 };
 
@@ -29,6 +30,6 @@ export const verifyAccessToken = (token: string): any => {
     try {
         return jwt.verify(token, ACCESS_TOKEN_SECRET);
     } catch (err) {
-        throw { status: 403, message: "Invalid access token" };
+        throw new ApiError(403, "Invalid access token");
     }
 };

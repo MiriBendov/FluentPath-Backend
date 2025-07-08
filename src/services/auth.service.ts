@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken, verifyAccessToken } from "../utils/jwt";
 import { findUserById, findUserByIdentityNumber, updateLastLogin } from "../repositories/user.repository";
+import { ApiError } from "../utils/ApiError";
 
 export const checkPassword = async (plainPassword: string, hash: string) => {
     return bcrypt.compare(plainPassword, hash);
@@ -8,10 +9,10 @@ export const checkPassword = async (plainPassword: string, hash: string) => {
 
 export const loginService = async (identity_number: string, password: string) => {
     const user = await findUserByIdentityNumber(identity_number);
-    if (!user) throw { status: 401, message: "User not found" };
+    if (!user) throw new ApiError(401, "User not found");
 
     const isValid = await checkPassword(password, user.passwordHash);
-    if (!isValid) throw { status: 401, message: "Incorrect password" };
+    if (!isValid) throw new ApiError(401, "Incorrect password");
 
     await updateLastLogin(user.id, new Date());
 
@@ -35,7 +36,7 @@ export const loginService = async (identity_number: string, password: string) =>
 export const refreshTokenService = async (refreshToken: string) => {
     const payload = verifyRefreshToken(refreshToken);
     const user = await findUserById(payload.userId);
-    if (!user) throw { status: 403, message: "Invalid user" };
+    if (!user) throw new ApiError(403, "Invalid user");
 
     const newToken = generateAccessToken(user);
     return { token: newToken };
