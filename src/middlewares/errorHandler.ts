@@ -19,6 +19,11 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
          res.status(400).json({ error: err.message });
          return;
     }
+    // שגיאה מותאמת אישית של מחיקת שיעור עם סרטונים פעילים
+     if (err.message === "Cannot delete lesson with active videos") {
+        res.status(400).json({ error: err.message });
+        return;
+    }
 
     // שגיאה כללית
     console.error(err.stack);

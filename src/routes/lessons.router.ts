@@ -1,10 +1,11 @@
 import {Router} from 'express';
 import { LessonsController } from "../controllers/lessons.controller";
 import { validate } from "../middlewares/validate";
-import { lessonSchema } from "../validations/lesson.schema";
-import { authMiddleware } from "../middlewares/authMiddleware"; // המידלוור שלך לבדוק שהמשתמש מחובר
+import { lessonSchema } from "../validation/lesson.schema";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 const router = Router();
+
 // קבלת כל השיעורים
 router.get("/", LessonsController.getAllLessons);
 // קבלת שיעור לפי מזהה
