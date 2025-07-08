@@ -65,23 +65,27 @@ model Organization {
 }
 
 model User {
-  id             String   @id @default(uuid())
-  identityNumber String   @unique
-  email          String   @unique
-  passwordHash   String
-  firstName      String
-  lastName       String
-  role           Role
-  organizationId String
-  isActive       Boolean  @default(true)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  lastLogin      DateTime?
+  id                String   @id @default(uuid())
+  identityNumber    String   @unique
+  email             String   @unique
+  phone             String?  @unique
+  passwordHash      String
+  firstName         String
+  lastName          String
+  role              Role
+  organizationId    String
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  lastLogin         DateTime?
 
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  progresses     UserProgress[]
-  videoViews     VideoView[]
-  quizAttempts   QuizAttempt[]
+  twoFactorCode     String?
+  twoFactorExpires  DateTime?
+
+  organization      Organization @relation(fields: [organizationId], references: [id])
+  progresses        UserProgress[]
+  videoViews        VideoView[]
+  quizAttempts      QuizAttempt[]
 }
 
 model Lesson {
