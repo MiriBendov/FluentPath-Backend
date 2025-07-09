@@ -18,3 +18,23 @@ export const updateLastLogin = async (userId: string, date: Date) => {
         data: { lastLogin: date },
     });
 };
+
+export const update2FACode = async (userId: string, code: string, expires: Date) => {
+    return prisma.user.update({
+        where: { id: userId },
+        data: {
+            twoFactorCode: code,
+            twoFactorExpires: expires,
+        },
+    });
+};
+
+export const clear2FACode = async (userId: string) => {
+    return prisma.user.update({
+        where: { id: userId },
+        data: {
+            twoFactorCode: null,
+            twoFactorExpires: null,
+        },
+    });
+};

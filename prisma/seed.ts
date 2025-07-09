@@ -19,11 +19,24 @@ async function main() {
   await prisma.user.create({
     data: {
       identityNumber: '123456789',
-      email: 'admin@demo.com',
-      passwordHash: await bcrypt.hash('temp_password',10),
+      email: 'yael71010@gmail.com',
+      passwordHash: await bcrypt.hash('temp_password', 10),
       firstName: 'Admin',
       lastName: 'User',
       role: 'admin',
+      organizationId: org.id,
+    },
+  })
+
+  // יצירת משתמש student
+  await prisma.user.create({
+    data: {
+      identityNumber: '234567891',
+      email: 'student@demo.com',
+      passwordHash: await bcrypt.hash('temp_password1', 10),
+      firstName: 'Student',
+      lastName: 'User',
+      role: 'student',
       organizationId: org.id,
     },
   })

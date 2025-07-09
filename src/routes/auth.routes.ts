@@ -1,10 +1,11 @@
 import express from "express";
-import { login, refresh, logout } from "../controllers/auth.controller";
+import { login, verify2FACode, refresh, logout } from "../controllers/auth.controller";
 import { authenticateToken, authorizeRoles } from "../middlewares/auth.middleware";
 
 const router = express.Router();
 
 router.post("/login", login);
+router.post("/verify-2fa", verify2FACode);
 router.post("/refresh", refresh);
 router.post("/logout", authenticateToken, logout);  // רק משתמש מחובר יכול להתנתק
 
