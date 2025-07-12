@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { sendSMS } from "./sendSMS";
 import { EMAIL_USER, EMAIL_PASS, NODE_ENV } from "../config";
 
 export const generate2FACode = (): string => {
@@ -30,6 +31,6 @@ export const send2FACode = async (
             html: `<p>קוד האימות שלך הוא: <b>${code}</b></p>`,
         });
     } else {
-        // TODO: Implement SMS sending functionality if required
+        await sendSMS(destination, `קוד האימות שלך הוא: ${code}`);
     }
 };

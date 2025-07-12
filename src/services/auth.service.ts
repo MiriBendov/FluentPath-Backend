@@ -3,6 +3,7 @@ import { generateAccessToken, generateRefreshToken, verifyRefreshToken, verifyAc
 import { findUserById, findUserByIdentityNumber, update2FACode, clear2FACode, updateLastLogin } from "../repositories/user.repository";
 import { ApiError } from "../utils/ApiError";
 import { send2FACode, generate2FACode } from "../utils/send2FACode";
+import { NODE_ENV } from "../config";
 
 export const checkPassword = async (plainPassword: string, hash: string) => {
     return bcrypt.compare(plainPassword, hash);
@@ -22,7 +23,10 @@ export const loginService = async (identity_number: string, password: string) =>
 
         await update2FACode(user.id, code, expires);
 
-        const method = user.email ? "email" : "sms";
+        // TODO: Enable SMS sending after Twilio is verified or account is upgraded
+        // In development, only email is sent to avoid failed SMS attempts
+        const isDev = NODE_ENV !== "production";
+        const method = isDev ? "email" : (user.email ? "email" : "sms");
         const destination = user.email || user.phone || "";
 
         if (!destination) throw new ApiError(400, "Missing email or phone for 2FA");
