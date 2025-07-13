@@ -10,7 +10,11 @@ export const QuizService = {
     passingScore: number;
     maxAttempts: number;
     isFinalExam?: boolean;
-  }) {
+  }
+)
+  
+   {
+    
     const {lessonId,title,description,timeLimit,passingScore,maxAttempts,isFinalExam,} = input;
 
      if (!lessonId || !title || !description || !timeLimit || !passingScore || !maxAttempts) {
@@ -26,5 +30,27 @@ export const QuizService = {
       maxAttempts,
       isFinalExam: isFinalExam ?? false,
     });
+  },
+
+
+
+   async updateQuiz(id: string, data: Partial<{
+    title: string;
+    description: string;
+    timeLimit: number;
+    passingScore: number;
+    maxAttempts: number;
+    isFinalExam: boolean;
+  }>) {
+    const quiz = await QuizRepository.findById(id);
+    if (!quiz) {
+      throw new ApiError(404, "Quiz not found");
+    }
+
+    if (Object.keys(data).length === 0) {
+      throw new ApiError(400, "No data provided for update");
+    }
+
+    return QuizRepository.update(id, data);
   },
 };
