@@ -5,11 +5,11 @@ export const QuizRepository = {
   async create(data: {
     lessonId: string;
     title: string;
-    description?: string;
+    description: string;
     timeLimit: number;
     passingScore: number;
     maxAttempts: number;
-    isFinalExam?: boolean;
+    isFinalExam: boolean;
   }) {
     return prisma.quiz.create({ data });
   },
