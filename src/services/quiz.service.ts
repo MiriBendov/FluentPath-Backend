@@ -1,4 +1,4 @@
-import { getQuizByIdWithQuestions, getLastQuizAttempt, createQuizAttempt } from "../repositories/quiz.repository";
+import { getQuizByIdWithQuestions, getLastQuizAttempt, createQuizAttempt, getAttemptsByUserAndQuiz } from "../repositories/quiz.repository";
 import { ApiError } from "../utils/ApiError";
 
 export const submitQuizService = async (userId: string, quizId: string, answers: Record<string, string>, timeTaken: number) => {
@@ -58,4 +58,15 @@ export const submitQuizService = async (userId: string, quizId: string, answers:
         correct_answers: correctAnswers,
         total_questions: questions.length,
     };
+};
+
+export const getUserQuizAttemptsService = async (userId: string, quizId: string) => {
+    const attempts = await getAttemptsByUserAndQuiz(userId, quizId);
+
+    return attempts.map((attempt) => ({
+        attempt: attempt.attemptNumber,
+        score: attempt.score,
+        passed: attempt.passed,
+        date: attempt.completedAt,
+    }));
 };
