@@ -10,4 +10,6 @@ router.post("/",authenticateToken,authorizeRoles("content_manager", "admin"),val
 router.put("/:id",authenticateToken,authorizeRoles("admin", "content_manager"),validate(updateQuizSchema),updateQuiz);
 
 
+
+
 export default router;
