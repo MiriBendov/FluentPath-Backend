@@ -1,5 +1,6 @@
 import { LessonsRepository } from "../repository/lessons.repository";
 
+
 export const LessonsService = {
     async getAllLessons() {
         return LessonsRepository.findAll();
