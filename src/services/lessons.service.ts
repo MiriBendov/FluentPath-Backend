@@ -1,9 +1,13 @@
 import { LessonsRepository } from "../repository/lessons.repository";
+import { getOrSetCache } from "../utils/cacheHelper";
+import { redis } from "../utils/redisClient";
 
 
 export const LessonsService = {
     async getAllLessons() {
-        return LessonsRepository.findAll();
+         return getOrSetCache("lessons_list", async () => {
+            return LessonsRepository.findAll();
+        });
     },
 
     async getLessonById(id: string) {
@@ -11,11 +15,15 @@ export const LessonsService = {
     },
 
     async createLesson(data: any) {
-        return LessonsRepository.create(data);
+       const lesson = await LessonsRepository.create(data);
+        await redis.del("lessons_list");
+        return lesson;
     },
 
     async updateLesson(id: string, data: any) {
-        return LessonsRepository.update(id, data);
+        const lesson=await LessonsRepository.update(id, data);
+        await redis.del("lessons_list");
+        return lesson;
     },
 
     async deleteLesson(id: string) {
@@ -24,7 +32,8 @@ export const LessonsService = {
         if (videoCount > 0) {
             throw new Error("Cannot delete lesson with active videos");
         }
-
-        return LessonsRepository.delete(id);
+        const result = await LessonsRepository.delete(id);
+        await redis.del("lessons_list");
+        return result;
     }
 };
