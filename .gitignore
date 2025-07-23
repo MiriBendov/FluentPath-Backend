@@ -38,3 +38,4 @@ prisma/dev.db-journal
 docker-compose.override.yml
 *.pid
 *.sock
+
