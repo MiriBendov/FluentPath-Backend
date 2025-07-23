@@ -1,4 +1,4 @@
-const Joi= require('joi');
+import Joi from "joi";
 
 export const loginSchema = Joi.object({
   identity_number: Joi.string().trim().length(9).pattern(/^\d+$/).required(),
