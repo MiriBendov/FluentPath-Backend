@@ -1,12 +1,12 @@
 export class ApiError extends Error {
-  public status: number;
-  public details?: any;
+    public status: number;
+    public details?: any;
 
-  constructor(status: number, message: string, details?: any) {
-    super(message);
-    this.status = status;
-    this.details = details;
+    constructor(status: number, message: string, details?: any) {
+        super(message);
+        this.status = status;
+        this.details = details;
 
-    Object.setPrototypeOf(this, ApiError.prototype);
-  }
+        Object.setPrototypeOf(this, ApiError.prototype);
+    }
 }
