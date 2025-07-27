@@ -1,11 +1,15 @@
 import { Request, Response, NextFunction } from "express";
 import { loginService, refreshTokenService, logoutService } from "../services/auth.service";
 import { ApiError } from "../utils/ApiError";
+import { loginSchema } from "../utils/validation/login.schema";
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { identity_number, password } = req.body;
-        const result = await loginService(identity_number, password);
+        const { error, value } = loginSchema.validate(req.body);
+        if (error) {
+            throw new ApiError(400, error.details[0].message);
+        }
+        const result = await loginService(value.identity_number, value.password);
         res.status(200).json(result);
     } catch (err) {
         next(err);
