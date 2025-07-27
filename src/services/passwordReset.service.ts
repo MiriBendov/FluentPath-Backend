@@ -1,7 +1,8 @@
 import crypto from "crypto";
 import bcrypt from "bcrypt";
-import { sendResetEmail } from "../services/emailService";
+import { sendResetEmail } from "./email.service";
 import { PasswordResetRepository } from "../repository/passwordResetRepository";
+import { ApiError } from "../utils/ApiError";
 
 export const PasswordResetService = {
     async forgotPassword(email: string) {
@@ -20,10 +21,10 @@ export const PasswordResetService = {
 
     async resetPassword(userId: string, token: string, newPassword: string) {
         const record = await PasswordResetRepository.findValidToken(userId);
-        if (!record) throw new Error("Invalid or expired token");
+        if (!record) throw new ApiError(401,"Invalid or expired token");
 
         const isValid = await bcrypt.compare(token, record.tokenHash);
-        if (!isValid) throw new Error("Invalid or expired token");
+        if (!isValid) throw new ApiError(401,"Invalid or expired token");
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         await PasswordResetRepository.updateUserPassword(userId, hashedPassword);
