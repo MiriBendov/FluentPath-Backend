@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { VideoController } from "../controllers/videoController";
 import { upload } from "../utils/multerConfig";
-import { validate } from "../middlewares/validate";
-import { videoSchema } from "../validation/video";
+import { videoSchema } from "../validation/video.schema";
+import { authenticateToken, authorizeRoles } from "../middlewares/auth.middleware";
 
 const router = Router();
 
-router.post("/upload", upload.single("video"), validate(videoSchema), VideoController.uploadVideo);
+router.post("/upload",authenticateToken,authorizeRoles("admin","content_manager"), upload.single("video"),  VideoController.uploadVideo);
 
 export default router;
