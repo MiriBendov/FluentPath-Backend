@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { loginService, refreshTokenService, logoutService } from "../services/auth.service";
 import { ApiError } from "../utils/ApiError";
-import { loginSchema } from "../utils/validation/login.schema";
+import { loginSchema } from "../validation/login.schema";
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     try {
