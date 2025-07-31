@@ -6,5 +6,5 @@ import { authenticateToken } from "../middlewares/auth.middleware";
 
 const router = Router();
 
-router.get("/",LessonController.getLessons);
+router.get("/",authenticateToken,LessonController.getLessons);
 export default router;
