@@ -205,7 +205,8 @@ model PlacementTestAttempt {
   score         Int
   startingLevel Level
   answers       Json
-  createdAt     DateTime @default(now())
+  startedAt     DateTime @default(now())
+  completedAt   DateTime?
 
   user User @relation(fields: [userId], references: [id])
 
