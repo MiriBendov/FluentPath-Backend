@@ -1,7 +1,11 @@
 import express from "express";
 import cors from "cors";
-import video_router from "./routes/video.router";
+import lessonsRouter from "./routes/lessons.router";
 import {errorHandler} from "./middlewares/error.middleware";
+
+
+import video_router from "./routes/video.router";
+
 import passwordResetRouter from "./routes/passwordReset.routs";
 import { notFound } from "./middlewares/not-found.middleware";
 import authRoutes from "./routes/auth.routes";
@@ -14,7 +18,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.send("API is working");
 });
-app.use("/api/v1/videos", video_router);
+
+
+app.use("/api/v1/lessons", lessonsRouter);
 
 app.use("/api/v1/auth", passwordResetRouter);
 
