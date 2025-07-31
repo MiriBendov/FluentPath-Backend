@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { VideoService } from "../services/videoService";
+import { VideoService } from "../services/video.service";
 import { videoSchema } from "../validation/video.schema";
 import { ApiError } from "../utils/ApiError";
 

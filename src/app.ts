@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import video_router from "./routes/video_router";
+import video_router from "./routes/video.router";
 import {errorHandler} from "./middlewares/error.middleware";
 
 

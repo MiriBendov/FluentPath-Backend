@@ -1,4 +1,4 @@
-import { VideoRepository } from "../repository/videoRepository";
+import { VideoRepository } from "../repository/video.repository";
 
 export const VideoService = {
     async uploadVideo(videoData: any) {

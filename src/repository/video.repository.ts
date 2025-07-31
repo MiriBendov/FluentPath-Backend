@@ -13,7 +13,7 @@ export const VideoRepository = {
             duration: videoData.duration,
             orderInLesson: videoData.orderInLesson,
             transcript: videoData.transcript,
-            lesson: { connect: { id: videoData.lessonId } } // חיבור ליחס
+            lesson: { connect: { id: videoData.lessonId } }
         }
     }),
 };
