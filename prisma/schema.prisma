@@ -77,11 +77,12 @@ model User {
   updatedAt      DateTime  @updatedAt
   lastLogin      DateTime?
 
-  organization          Organization           @relation(fields: [organizationId], references: [id])
-  progresses            UserProgress[]
-  videoViews            VideoView[]
-  quizAttempts          QuizAttempt[]
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  progresses     UserProgress[]
+  videoViews     VideoView[]
+  quizAttempts   QuizAttempt[]
   placementTestAttempts PlacementTestAttempt[]
+  passwordResetTokens PasswordResetToken[]
 }
 
 model Lesson {
@@ -192,11 +193,11 @@ model QuizAttempt {
   startedAt      DateTime
   completedAt    DateTime
 
-  userId String
-  quizId String
+  userId         String
+  quizId         String
 
-  user User @relation(fields: [userId], references: [id])
-  quiz Quiz @relation(fields: [quizId], references: [id])
+  user           User     @relation(fields: [userId], references: [id])
+  quiz           Quiz     @relation(fields: [quizId], references: [id])
 }
 
 model PlacementTestAttempt {
@@ -211,4 +212,15 @@ model PlacementTestAttempt {
   user User @relation(fields: [userId], references: [id])
 
   @@index([userId])
+}
+
+model PasswordResetToken {
+  id           String   @id @default(uuid())
+  userId       String
+  tokenHash    String
+  expiresAt    DateTime
+  used         Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id])
 }
