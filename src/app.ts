@@ -8,6 +8,7 @@ import video_router from "./routes/video.router";
 import passwordResetRouter from "./routes/passwordReset.routs";
 import authRoutes from "./routes/auth.routes";
 import quizRoutes from "./routes/quiz.routes";
+import videoRoutes from "./routes/video.routes";
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use("/api/v1/auth", passwordResetRouter);
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/quizzes", quizRoutes);
+app.use("/api/v1/videos", videoRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
