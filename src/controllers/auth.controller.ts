@@ -13,7 +13,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         if (!ipAddress) {
             throw new ApiError(400, "IP address is missing");
         }
-        
+
         const result = await loginService(value.identity_number, value.password, ipAddress);
         res.status(200).json(result);
     } catch (err) {
@@ -27,7 +27,12 @@ export const verify2FACode = async (req: Request, res: Response, next: NextFunct
         if (!identity_number || !code)
             throw new ApiError(400, "Missing identity number or code");
 
-        const result = await verify2FACodeService(identity_number, code);
+        const ipAddress = req.ip;
+        if (!ipAddress) {
+            throw new ApiError(400, "IP address is missing");
+        }
+
+        const result = await verify2FACodeService(identity_number, code, ipAddress);
         res.status(200).json(result);
     } catch (err) {
         next(err);

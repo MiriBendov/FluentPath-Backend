@@ -39,6 +39,8 @@ export const loginService = async (identity_number: string, password: string, ip
 
     await updateLastLogin(user.id, new Date());
 
+    await saveLoginHistory(user.id, ipAddress);
+
     const token = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
 
@@ -56,7 +58,7 @@ export const loginService = async (identity_number: string, password: string, ip
     };
 };
 
-export const verify2FACodeService = async (identityNumber: string, code: string) => {
+export const verify2FACodeService = async (identityNumber: string, code: string, ipAddress: string) => {
     const user = await findUserByIdentityNumber(identityNumber);
     if (!user) throw new ApiError(404, "User not found");
 
