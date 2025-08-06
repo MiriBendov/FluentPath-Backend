@@ -193,8 +193,10 @@ model VideoView {
   userId  String
   videoId String
 
-  user  User  @relation(fields: [userId], references: [id])
-  video Video @relation(fields: [videoId], references: [id])
+  user            User     @relation(fields: [userId], references: [id])
+  video           Video    @relation(fields: [videoId], references: [id])
+
+  @@unique([userId, videoId])
 }
 
 model QuizAttempt {

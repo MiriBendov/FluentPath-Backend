@@ -35,3 +35,7 @@ export const updateVideoSchema = Joi.object({
   orderInLesson: Joi.number().integer().min(1),
   transcript: Joi.string()
 }).min(1);
+export const videoViewSchema = Joi.object({
+  watch_time: Joi.number().min(1).required(),
+  completed: Joi.boolean().required(),
+});
