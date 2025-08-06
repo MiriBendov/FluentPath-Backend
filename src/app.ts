@@ -10,6 +10,7 @@ import authRoutes from "./routes/auth.routes";
 import quizRoutes from "./routes/quiz.routes";
 import videoRoutes from "./routes/video.routes";
 import certificateRoutes from "./routes/certificate.routes"
+import lessonRoutes from "./routes/lesson.routes"
 
 const app = express();
 
@@ -36,6 +37,11 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/quizzes", quizRoutes);
 app.use("/api/v1/videos", videoRoutes);
 app.use("/api/v1/certificates", certificateRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
+
+app.use("/api/v1/lessons", lessonRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
