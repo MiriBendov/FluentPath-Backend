@@ -20,3 +20,15 @@ export const getLastQuizAttempt = (userId: string, quizId: string) => {
 export const createQuizAttempt = (data: any) => {
     return prisma.quizAttempt.create({ data });
 };
+
+export const getAttemptsByUserAndQuiz = (userId: string, quizId: string) => {
+    return prisma.quizAttempt.findMany({
+        where: {
+            userId,
+            quizId,
+        },
+        orderBy: {
+            attemptNumber: "asc",
+        },
+    });
+};
