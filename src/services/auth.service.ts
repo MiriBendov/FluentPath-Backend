@@ -1,15 +1,16 @@
 import bcrypt from "bcryptjs";
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken, verifyAccessToken } from "../utils/jwt";
 import { findUserById, findUserByIdentityNumber, update2FACode, clear2FACode, updateLastLogin } from "../repositories/user.repository";
-import { ApiError } from "../utils/ApiError";
 import { send2FACode, generate2FACode } from "../utils/send2FACode";
+import { saveLoginHistory } from "../repositories/login.repository";
 import { NODE_ENV } from "../config";
+import { ApiError } from "../utils/ApiError";
 
 export const checkPassword = async (plainPassword: string, hash: string) => {
     return bcrypt.compare(plainPassword, hash);
 };
 
-export const loginService = async (identity_number: string, password: string) => {
+export const loginService = async (identity_number: string, password: string, ipAddress: string) => {
     const user = await findUserByIdentityNumber(identity_number);
     if (!user) throw new ApiError(401, "User not found");
 
@@ -70,6 +71,8 @@ export const verify2FACodeService = async (identityNumber: string, code: string)
 
     await clear2FACode(user.id);
     await updateLastLogin(user.id, new Date());
+
+    await saveLoginHistory(user.id, ipAddress);
 
     const token = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);

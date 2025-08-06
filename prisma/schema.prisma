@@ -87,6 +87,7 @@ model User {
   quizAttempts      QuizAttempt[]
   placementTestAttempts PlacementTestAttempt[]
   passwordResetTokens PasswordResetToken[]
+  logins            Login[] 
 }
 
 model Lesson {
@@ -152,6 +153,17 @@ model Question {
 
   quizId String
   quiz   Quiz   @relation(fields: [quizId], references: [id])
+}
+
+model Login {
+  id        String   @id @default(uuid())
+  loginTime DateTime
+  ipAddress String
+  userId    String
+
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 model UserProgress {

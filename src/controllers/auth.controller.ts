@@ -9,7 +9,12 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         if (error) {
             throw new ApiError(400, error.details[0].message);
         }
-        const result = await loginService(value.identity_number, value.password);
+        const ipAddress = req.ip;
+        if (!ipAddress) {
+            throw new ApiError(400, "IP address is missing");
+        }
+        
+        const result = await loginService(value.identity_number, value.password, ipAddress);
         res.status(200).json(result);
     } catch (err) {
         next(err);
