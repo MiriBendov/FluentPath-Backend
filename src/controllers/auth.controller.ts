@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { loginService, refreshTokenService, logoutService } from "../services/auth.service";
+import { loginService, verify2FACodeService, refreshTokenService, logoutService } from "../services/auth.service";
 import { ApiError } from "../utils/ApiError";
 import { loginSchema } from "../validation/login.schema";
 
@@ -10,6 +10,19 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             throw new ApiError(400, error.details[0].message);
         }
         const result = await loginService(value.identity_number, value.password);
+        res.status(200).json(result);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const verify2FACode = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { identity_number, code } = req.body;
+        if (!identity_number || !code)
+            throw new ApiError(400, "Missing identity number or code");
+
+        const result = await verify2FACodeService(identity_number, code);
         res.status(200).json(result);
     } catch (err) {
         next(err);
