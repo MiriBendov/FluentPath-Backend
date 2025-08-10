@@ -1,8 +1,9 @@
 import {Router} from 'express';
 import { LessonsController } from "../controllers/lessons.controller";
-import { validate } from "../middlewares/validate";
-import { lessonSchema } from "../validation/lesson.schema";
 import { authenticateToken, authorizeRoles } from '../middlewares/auth.middleware';
+import { LessonController } from "../controllers/lesson.controller";
+
+
 
 const router = Router();
 
@@ -16,4 +17,10 @@ router.post("/",authenticateToken,authorizeRoles("admin, content_manager"),Lesso
 router.put("/:id", authenticateToken,authorizeRoles("admin, content_manager"), LessonsController.updateLesson);
 // מחיקת שיעור
 router.delete("/:id",authenticateToken,authorizeRoles("admin, content_manager"), LessonsController.deleteLesson);
+
+
+
+
+
+router.get("/",authenticateToken,LessonController.getLessons);
 export default router;

@@ -1,21 +1,7 @@
-// import { PrismaClient } from "@prisma/client";
-// const prisma = new PrismaClient()
 import { prisma } from '../src/db/db';
 import bcrypt from 'bcryptjs';
 
-
-
 async function main() {
-
-  await prisma.question.deleteMany();
-await prisma.quiz.deleteMany();
-await prisma.video.deleteMany();
-await prisma.lesson.deleteMany();
-await prisma.passwordResetToken.deleteMany(); // הוספתי את זה - חשוב מאוד
-await prisma.user.deleteMany();
-await prisma.organization.deleteMany();
-
-
   // יצירת ארגון
   const org = await prisma.organization.create({
     data: {
@@ -32,9 +18,10 @@ await prisma.organization.deleteMany();
   // יצירת משתמש admin
   await prisma.user.create({
     data: {
-      identityNumber: '113456789',
-      email: 'admin@demo.com',
-      passwordHash: await bcrypt.hash('temp_password',10),
+      identityNumber: '123456789',
+      email: 'yael71010@gmail.com',
+      // email: 'admin@demo.com',
+      passwordHash: await bcrypt.hash('temp_password', 10),
       firstName: 'Admin',
       lastName: 'User',
       role: 'admin',
@@ -58,10 +45,49 @@ await prisma.organization.deleteMany();
     data: {
       identityNumber: '987654321',
       email: 'yael79996@gmail.com',
-      passwordHash: await bcrypt.hash('temp_password',10),
+      passwordHash: await bcrypt.hash('temp_password', 10),
       firstName: 'yael',
       lastName: 'koren',
       role: 'admin',
+      organizationId: org.id,
+    },
+  })
+
+  // יצירת משתמש student
+  await prisma.user.create({
+    data: {
+      identityNumber: '234567891',
+      email: 'student@demo.com',
+      passwordHash: await bcrypt.hash('temp_password1', 10),
+      firstName: 'Student',
+      lastName: 'User',
+      role: 'student',
+      organizationId: org.id,
+    },
+  })
+
+  // יצירת משתמש student
+  const student = await prisma.user.create({
+    data: {
+      identityNumber: '234567891',
+      email: 'student@demo.com',
+      passwordHash: await bcrypt.hash('temp_password1', 10),
+      firstName: 'Student',
+      lastName: 'User',
+      role: 'student',
+      organizationId: org.id,
+    },
+  })
+
+  // יצירת משתמש student 2
+  const student2 = await prisma.user.create({
+    data: {
+      identityNumber: '222222222',
+      email: 'student2@demo.com',
+      passwordHash: await bcrypt.hash('temp_password2', 10),
+      firstName: 'Student2',
+      lastName: 'User2',
+      role: 'student',
       organizationId: org.id,
     },
   })
@@ -75,6 +101,32 @@ await prisma.organization.deleteMany();
       orderInLevel: 1,
       estimatedDuration: 30,
       learningObjectives: { topics: ['nouns', 'verbs'] },
+      isActive: true,
+    },
+  })
+
+  //2 יצירת שיעור
+  const lesson2 = await prisma.lesson.create({
+    data: {
+      title: 'English Grammer',
+      description: 'Learning English grammar tenses.',
+      level: 'elementary',
+      orderInLevel: 1,
+      estimatedDuration: 40,
+      learningObjectives: { topics: ['past simple', 'future'] },
+      isActive: true,
+    },
+  })
+
+  //3 יצירת שיעור
+  const lesson3 = await prisma.lesson.create({
+    data: {
+      title: 'English Grammer 2',
+      description: 'Learning English grammar tenses 2.',
+      level: 'elementary',
+      orderInLevel: 2,
+      estimatedDuration: 50,
+      learningObjectives: { topics: ['past', 'present simple'] },
       isActive: true,
     },
   })
@@ -119,6 +171,43 @@ await prisma.organization.deleteMany();
       points: 10,
       orderInQuiz: 1,
       quizId: quiz.id,
+    },
+  })
+
+  // יצירת שיעור 1 לתלמיד
+  await prisma.userProgress.create({
+    data: {
+      status: 'completed',
+      completionPercentage: 100,
+      startedAt: new Date(),
+      completedAt: new Date(),
+      totalTimeSpent: lesson.estimatedDuration,
+      userId: student2.id,
+      lessonId: lesson.id,
+    },
+  })
+
+  // יצירת שיעור 2 לתלמיד
+  await prisma.userProgress.create({
+    data: {
+      status: 'in_progress',
+      completionPercentage: 30,
+      startedAt: new Date(),
+      totalTimeSpent: 210,
+      userId: student2.id,
+      lessonId: lesson2.id,
+    },
+  })
+
+  // יצירת שיעור 3 לתלמיד
+  await prisma.userProgress.create({
+    data: {
+      status: 'not_started',
+      completionPercentage: 0,
+      startedAt: new Date(),
+      totalTimeSpent: 0,
+      userId: student2.id,
+      lessonId: lesson3.id,
     },
   })
 
