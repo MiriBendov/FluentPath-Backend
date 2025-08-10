@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import  lessonsRouter  from "./routes/lessons.router";
-import errorHandler from "./middlewares/errorHandler";
+import {errorHandler} from "./middlewares/error.middleware";
 
 
 

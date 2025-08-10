@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { LessonsService } from "../services/lessons.service";
+import { lessonSchema } from "../validation/lesson.schema";
+import { ApiError } from "../utils/ApiError";
 
 export const LessonsController = {
     // שליפת כל השיעורים
@@ -28,7 +30,11 @@ export const LessonsController = {
     // יצירת שיעור חדש
     async createLesson(req: Request, res: Response, next: NextFunction) {
         try {
-            const lesson = await LessonsService.createLesson(req.body);
+             const { error, value } = lessonSchema.validate(req.body);
+        if (error) {
+            throw new ApiError(400, error.details[0].message);
+        }
+            const lesson = await LessonsService.createLesson(value);
             res.status(201).json(lesson);
         } catch (err) {
             next(err);
@@ -38,7 +44,11 @@ export const LessonsController = {
     // עדכון שיעור קיים
     async updateLesson(req: Request, res: Response, next: NextFunction) {
         try {
-            const lesson = await LessonsService.updateLesson(req.params.id, req.body);
+             const { error, value } = lessonSchema.validate(req.body);
+        if (error) {
+            throw new ApiError(400, error.details[0].message);
+        }
+            const lesson = await LessonsService.updateLesson(req.params.id,value);
             res.json(lesson);
         } catch (err) {
             next(err);
