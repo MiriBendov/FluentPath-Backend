@@ -6,26 +6,14 @@ import { authenticateToken, authorizeRoles } from '../middlewares/auth.middlewar
 
 const router = Router();
 
-// // קבלת כל השיעורים
-// router.get("/",authenticateToken,authorizeRoles("admin, content_manager"), LessonsController.getAllLessons);
-// // קבלת שיעור לפי מזהה
-// router.get("/:id",authenticateToken, LessonsController.getLessonById);
-// // יצירת שיעור חדש
-// router.post("/",authenticateToken,authorizeRoles("admin, content_manager"),LessonsController.createLesson);
-// // עדכון שיעור קיים
-// router.put("/:id", authenticateToken,authorizeRoles("admin, content_manager"), LessonsController.updateLesson);
-// // מחיקת שיעור
-// router.delete("/:id",authenticateToken,authorizeRoles("admin, content_manager"), LessonsController.deleteLesson);
-// export default router;
-
 // קבלת כל השיעורים
-router.get("/", LessonsController.getAllLessons);
+router.get("/",authenticateToken,authorizeRoles("admin, content_manager"), LessonsController.getAllLessons);
 // קבלת שיעור לפי מזהה
-router.get("/:id", LessonsController.getLessonById);
+router.get("/:id",authenticateToken, LessonsController.getLessonById);
 // יצירת שיעור חדש
-router.post("/",LessonsController.createLesson);
+router.post("/",authenticateToken,authorizeRoles("admin, content_manager"),LessonsController.createLesson);
 // עדכון שיעור קיים
-router.put("/:id",  LessonsController.updateLesson);
+router.put("/:id", authenticateToken,authorizeRoles("admin, content_manager"), LessonsController.updateLesson);
 // מחיקת שיעור
-router.delete("/:id", LessonsController.deleteLesson);
+router.delete("/:id",authenticateToken,authorizeRoles("admin, content_manager"), LessonsController.deleteLesson);
 export default router;
