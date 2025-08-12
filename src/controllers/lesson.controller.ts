@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { LessonService } from "../services/lesson.service";
-import { getLessonsSchema } from "../validation/lessons.schema";
+import { getLessonsSchema } from "../utils/validation/lessons.schema";
 import { getNextLessonService } from "../services/lesson.service";
 import { ApiError } from "../utils/ApiError";
 

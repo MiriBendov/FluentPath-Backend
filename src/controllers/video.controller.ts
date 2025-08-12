@@ -29,7 +29,7 @@ export const VideoController = {
                 title:value.title,
                 level:value.level,
                 lessonId:value.lessonId.toString(),
-               description:value.description,
+                description:value.description,
                 thumbnailUrl:value.thumbnailUrl,
                 duration: parseInt(value.duration, 10),
                 orderInLesson: parseInt(value.orderInLesson, 10),

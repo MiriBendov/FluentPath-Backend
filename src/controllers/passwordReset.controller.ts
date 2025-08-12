@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { PasswordResetService } from "../services/passwordReset.service";
-import { forgotPasswordSchema, resetPasswordSchema } from "../validation/passwordReset.schema";
+import { forgotPasswordSchema, resetPasswordSchema } from "../utils/validation/passwordReset.schema";
 import { ApiError } from "../utils/ApiError";
 
 export const PasswordResetController = {

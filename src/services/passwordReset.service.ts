@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 import { sendResetEmail } from "./email.service";
-import { PasswordResetRepository } from "../repository/passwordResetRepository";
+import { PasswordResetRepository } from "../repositories/passwordReset.repository";
 import { ApiError } from "../utils/ApiError";
 
 export const PasswordResetService = {

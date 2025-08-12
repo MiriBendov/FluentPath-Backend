@@ -1,5 +1,4 @@
-import { LessonRepository } from "../repository/lesson.repository";
-import { getLessonsProgressByUser } from "../repositories/lesson.repository";
+import { getLessonsProgressByUser, LessonRepository } from "../repositories/lesson.repository";
 
 export const LessonService = {
     async getLessons(level: string, status: string, userId: string) {
