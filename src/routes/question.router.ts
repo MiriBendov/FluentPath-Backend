@@ -1,10 +1,10 @@
 import express from "express";
-import { createQuestion } from "../controllers/questionController";
-import { updateQuestion } from "../controllers/questionController";
+import { createQuestion } from "../controllers/question.controller";
+import { updateQuestion } from "../controllers/question.controller";
 import { authenticateToken, authorizeRoles } from "../middlewares/auth.middleware";
 import { validate } from "../middlewares/validate";
-import { createQuestionSchema } from "../utils/validation/questionValidation";
-import { updateQuestionSchema } from "../utils/validation/questionValidation";
+import { createQuestionSchema } from "../utils/validation/question.validation";
+import { updateQuestionSchema } from "../utils/validation/question.validation";
 
 const router = express.Router();
 

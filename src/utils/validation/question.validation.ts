@@ -1,5 +1,9 @@
 import Joi from "joi";
 
+export const idParamSchema = Joi.object({
+  id: Joi.string().uuid().required()
+});
+
 export const createQuestionSchema = Joi.object({
   quizId: Joi.string().uuid().required(),
   questionText: Joi.string().min(5).max(500).required(),

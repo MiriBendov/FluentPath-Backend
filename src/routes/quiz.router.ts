@@ -1,8 +1,8 @@
 import express from "express";
-import { createQuiz ,updateQuiz} from "../controllers/quizController";
+import { createQuiz ,updateQuiz} from "../controllers/quiz.controller";
 import { authenticateToken, authorizeRoles } from "../middlewares/auth.middleware";
 import { validate } from "../middlewares/validate";
-import { createQuizSchema, updateQuizSchema } from "../utils/validation/quizValidation"
+import { createQuizSchema, updateQuizSchema } from "../utils/validation/quiz.validation"
 
 const router = express.Router();
 

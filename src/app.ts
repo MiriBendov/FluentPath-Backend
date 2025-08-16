@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import { errorHandler } from "./middlewares/error.middleware";
-import quizRouter from "./routes/quizRouter";
-import questionRouter from "./routes/questionRouter";
+import quizRouter from "./routes/quiz.router";
+import questionRouter from "./routes/question.router";
 
 
 const app = express();

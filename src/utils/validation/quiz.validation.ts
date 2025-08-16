@@ -1,5 +1,8 @@
 import Joi from "joi";
 
+export const idParamSchema = Joi.object({
+  id: Joi.string().uuid().required()
+});
 export const createQuizSchema = Joi.object({
   lessonId: Joi.string().uuid().required(),
   title: Joi.string().min(3).max(100).required(),
