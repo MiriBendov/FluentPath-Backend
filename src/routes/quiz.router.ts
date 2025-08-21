@@ -1,5 +1,5 @@
 import express from "express";
-import { createQuiz ,updateQuiz} from "../controllers/quiz.controller";
+import { createQuiz ,updateQuiz} from "../controllers/quiz.controllers";
 import { authenticateToken, authorizeRoles } from "../middlewares/auth.middleware";
 import { validate } from "../middlewares/validate";
 import { createQuizSchema, updateQuizSchema } from "../utils/validation/quiz.validation"
