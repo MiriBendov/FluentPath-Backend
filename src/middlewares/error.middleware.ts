@@ -3,7 +3,12 @@ import { ApiError } from "../utils/ApiError";
 import { NODE_ENV } from "../config";
 import { Sentry } from "../config/sentry";
 
-export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+export const errorHandler = (
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const isDev = NODE_ENV === "development";
   const status = err instanceof ApiError ? err.status : 500;
   const message = err.message || "Internal Server Error";
@@ -12,7 +17,13 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
   if (!isDev) {
     Sentry.captureException(err);
   } else {
-    console.error("Error:", { message, status, stack: err.stack });
+    console.error("Error:", {
+      message,
+      status,
+      stack: err.stack,
+      path: req.originalUrl,
+      method: req.method,
+    });
   }
 
   const responsePayload: Record<string, any> = { message };
