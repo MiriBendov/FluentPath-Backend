@@ -6,14 +6,12 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 
 // ----- Enums -----
 enum Role {
@@ -52,37 +50,44 @@ enum ProgressStatus {
 
 // ----- Models -----
 model Organization {
-  id                String   @id @default(uuid())
+  id                String           @id @default(uuid())
   name              String
   type              OrganizationType
   maxUsers          Int
   currentUsers      Int
   subscriptionStart DateTime
   subscriptionEnd   DateTime
-  isActive          Boolean  @default(true)
-  createdAt         DateTime @default(now())
+  isActive          Boolean          @default(true)
+  createdAt         DateTime         @default(now())
 
-  users             User[]
+  users User[]
 }
 
 model User {
-  id             String   @id @default(uuid())
-  identityNumber String   @unique
-  email          String   @unique
-  passwordHash   String
-  firstName      String
-  lastName       String
-  role           Role
-  organizationId String
-  isActive       Boolean  @default(true)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  lastLogin      DateTime?
+  id                String   @id @default(uuid())
+  identityNumber    String   @unique
+  email             String   @unique
+  phone             String?  @unique
+  passwordHash      String
+  firstName         String
+  lastName          String
+  role              Role
+  organizationId    String
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  lastLogin         DateTime?
 
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  progresses     UserProgress[]
-  videoViews     VideoView[]
-  quizAttempts   QuizAttempt[]
+  twoFactorCode     String?
+  twoFactorExpires  DateTime?
+
+  organization      Organization @relation(fields: [organizationId], references: [id])
+  progresses        UserProgress[]
+  videoViews        VideoView[]
+  quizAttempts      QuizAttempt[]
+  placementTestAttempts PlacementTestAttempt[]
+  passwordResetTokens PasswordResetToken[]
+  logins            Login[] 
 }
 
 model Lesson {
@@ -96,27 +101,27 @@ model Lesson {
   isActive           Boolean  @default(true)
   createdAt          DateTime @default(now())
 
-  videos             Video[]
-  quizzes            Quiz[]
-  progresses         UserProgress[]
+  videos     Video[]
+  quizzes    Quiz[]
+  progresses UserProgress[]
 }
 
 model Video {
-  id             String   @id @default(uuid())
-  title          String
-  description    String
-  fileUrl        String
-  thumbnailUrl   String
-  duration       Int
-  level          Level
-  orderInLesson  Int
-  transcript     String
-  isActive       Boolean  @default(true)
-  createdAt      DateTime @default(now())
+  id            String   @id @default(uuid())
+  title         String
+  description   String
+  fileUrl       String
+  thumbnailUrl  String
+  duration      Int
+  level         Level
+  orderInLesson Int
+  transcript    String
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
 
-  lessonId       String
-  lesson         Lesson   @relation(fields: [lessonId], references: [id])
-  views          VideoView[]
+  lessonId String
+  lesson   Lesson      @relation(fields: [lessonId], references: [id])
+  views    VideoView[]
 }
 
 model Quiz {
@@ -129,14 +134,14 @@ model Quiz {
   isFinalExam  Boolean
   createdAt    DateTime @default(now())
 
-  lessonId     String
-  lesson       Lesson   @relation(fields: [lessonId], references: [id])
-  questions    Question[]
-  attempts     QuizAttempt[]
+  lessonId  String
+  lesson    Lesson        @relation(fields: [lessonId], references: [id])
+  questions Question[]
+  attempts  QuizAttempt[]
 }
 
 model Question {
-  id            String   @id @default(uuid())
+  id            String       @id @default(uuid())
   questionText  String
   questionType  QuestionType
   options       Json
@@ -146,23 +151,34 @@ model Question {
   points        Int
   orderInQuiz   Int
 
-  quizId        String
-  quiz          Quiz     @relation(fields: [quizId], references: [id])
+  quizId String
+  quiz   Quiz   @relation(fields: [quizId], references: [id])
+}
+
+model Login {
+  id        String   @id @default(uuid())
+  loginTime DateTime
+  ipAddress String
+  userId    String
+
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 model UserProgress {
-  id                   String   @id @default(uuid())
+  id                   String         @id @default(uuid())
   status               ProgressStatus
   completionPercentage Int
   startedAt            DateTime
   completedAt          DateTime?
   totalTimeSpent       Int
 
-  userId               String
-  lessonId             String
+  userId   String
+  lessonId String
 
-  user                 User     @relation(fields: [userId], references: [id])
-  lesson               Lesson   @relation(fields: [lessonId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+  lesson Lesson @relation(fields: [lessonId], references: [id])
 }
 
 model VideoView {
@@ -174,11 +190,13 @@ model VideoView {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  userId          String
-  videoId         String
+  userId  String
+  videoId String
 
   user            User     @relation(fields: [userId], references: [id])
   video           Video    @relation(fields: [videoId], references: [id])
+
+  @@unique([userId, videoId])
 }
 
 model QuizAttempt {
@@ -198,4 +216,29 @@ model QuizAttempt {
 
   user           User     @relation(fields: [userId], references: [id])
   quiz           Quiz     @relation(fields: [quizId], references: [id])
+}
+
+model PlacementTestAttempt {
+  id            String   @id @default(uuid())
+  userId        String
+  score         Int
+  startingLevel Level
+  answers       Json
+  startedAt     DateTime @default(now())
+  completedAt   DateTime?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model PasswordResetToken {
+  id           String   @id @default(uuid())
+  userId       String
+  tokenHash    String
+  expiresAt    DateTime
+  used         Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id])
 }

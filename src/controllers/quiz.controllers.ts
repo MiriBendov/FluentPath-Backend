@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { QuizService } from "../services/quiz.service";
+import { QuizService } from "../services/quiz.services";
 import {createQuizSchema, updateQuizSchema,idParamSchema} from "../utils/validation/quiz.validation"
 import { ApiError } from "../utils/ApiError";
 
