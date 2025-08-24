@@ -10,7 +10,10 @@ import  lessonsRouter  from "./routes/lessons.router";
 import { notFound } from "./middlewares/not-found.middleware";
 import placementTestRoutes from "./routes/placementTest.routes";
 import passwordResetRouter from "./routes/passwordReset.routes";
+import  lessonsRoutes  from "./routes/lesson.routes";
+
 import video_router from "./routes/video.routes";
+import passwordResetRoutes from "./routes/passwordReset.routes";
 import authRoutes from "./routes/auth.routes";
 import quizRoutes from "./routes/quiz.routes";
 import videoRoutes from "./routes/video.routes";
@@ -42,6 +45,17 @@ app.use("/api/v1/lessons", lessonsRouter);
 app.use("/api/v1/placement-test", placementTestRoutes);
 app.use("/api/v1/lessons", lessonsRouter);
 app.use("/api/v1/auth", passwordResetRouter);
+app.use("/api/v1/lessons", lessonsRoutes);
+
+
+app.use("/api/v1/placement-test", placementTestRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
+
+app.use("/api/v1/auth", passwordResetRoutes);
+
+
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/quizzes", quizRoutes);
 app.use("/api/v1/videos", videoRoutes);

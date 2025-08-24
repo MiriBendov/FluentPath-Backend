@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { VideoService } from "../services/video.service";
-import { videoSchema } from "../validation/video.schema";
+import { videoSchema } from "../utils/validation/video.schema";
 import { createVideoSchema, updateVideoSchema } from "../utils/validation/video.schema";
 import { createVideoService, updateVideoService, deleteVideoService } from "../services/video.service";
 import { videoViewSchema } from "../utils/validation/video.schema";
