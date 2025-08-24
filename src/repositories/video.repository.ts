@@ -1,3 +1,21 @@
+<<<<<<< HEAD
+import { prisma } from "../db/db";
+export const VideoRepository = {
+    createVideo: (videoData: any) => prisma.video.create({
+        data: {
+            title: videoData.title,
+            level: videoData.level,
+            description: videoData.description,
+            fileUrl: videoData.fileUrl,
+            thumbnailUrl: videoData.thumbnailUrl,
+            duration: videoData.duration,
+            orderInLesson: videoData.orderInLesson,
+            transcript: videoData.transcript,
+            lesson: { connect: { id: videoData.lessonId } }
+        }
+    }),
+};
+=======
 import { prisma } from '../db/db';
 import { CreateVideoInput, UpdateVideoInput } from "../types/video";
 import { CreateVideoViewInput, UpdateVideoViewInput } from "../types/video";
@@ -67,3 +85,4 @@ export const updateVideoView = async (id: string, data: UpdateVideoViewInput) =>
 
 
 
+>>>>>>> 37bbb666e584b01805e3459e4b6ed515d7df70a0
