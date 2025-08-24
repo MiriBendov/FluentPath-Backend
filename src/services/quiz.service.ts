@@ -1,5 +1,5 @@
-<<<<<<< HEAD
-import { QuizRepository } from "../repository/quiz.repository";
+import { QuizRepository } from "../repositories/quiz.repositories";
+import { getQuizByIdWithQuestions, getLastQuizAttempt, createQuizAttempt, getAttemptsByUserAndQuiz } from "../repositories/quiz.repository";
 import { ApiError } from "../utils/ApiError";
 
 export const QuizService = {
@@ -55,9 +55,10 @@ export const QuizService = {
     return QuizRepository.update(id, data);
   },
 };
-=======
-import { getQuizByIdWithQuestions, getLastQuizAttempt, createQuizAttempt, getAttemptsByUserAndQuiz } from "../repositories/quiz.repository";
-import { ApiError } from "../utils/ApiError";
+
+
+
+
 
 export const submitQuizService = async (userId: string, quizId: string, answers: Record<string, string | string[]>, timeTaken: number) => {
     const quiz = await getQuizByIdWithQuestions(quizId);
@@ -128,4 +129,3 @@ export const getUserQuizAttemptsService = async (userId: string, quizId: string)
         date: attempt.completedAt,
     }));
 };
->>>>>>> ccab5a4fd97b240e0a548210e969034b9203008f

@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { LessonsController } from "../controllers/lessons.controller";
+import { LessonsController } from "../controllers/lesson.controller";
 import { authenticateToken, authorizeRoles } from '../middlewares/auth.middleware';
 import { LessonController } from "../controllers/lesson.controller";
 

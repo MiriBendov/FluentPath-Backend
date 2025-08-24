@@ -1,4 +1,4 @@
-import { LessonsRepository } from "../repository/lessons.repository";
+import { LessonsRepository } from "../repositories/lessons.repository";
 import { getOrSetCache } from "../utils/cacheHelper";
 import { redis } from "../utils/redisClient";
 

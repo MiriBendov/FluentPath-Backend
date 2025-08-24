@@ -1,4 +1,4 @@
-import { QuizRepository } from "../repository/quiz.repositories";
+import { QuizRepository } from "../repositories/quiz.repositories";
 import { ApiError } from "../utils/ApiError";
 
 export const QuizService = {

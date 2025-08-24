@@ -39,6 +39,8 @@ app.get("/boom", (req, res) => {
 app.get("/", (req, res) => {
     res.send("API is working");
 });
+
+app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/quizzes", quizRouter);
 app.use("/api/v1/questions", questionRouter);
 app.use("/api/v1/lessons", lessonsRouter);
@@ -56,7 +58,7 @@ app.use(errorHandler);
 app.use("/api/v1/auth", passwordResetRoutes);
 
 
-app.use("/api/v1/auth", authRoutes);
+
 app.use("/api/v1/quizzes", quizRoutes);
 app.use("/api/v1/videos", videoRoutes);
 app.use("/api/v1/certificates", certificateRoutes);

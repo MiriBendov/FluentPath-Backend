@@ -1,5 +1,5 @@
-import { QuestionRepository } from "../repository/question.repositories";
-import { QuizRepository } from "../repository/quiz.repositories";
+import { QuestionRepository } from "../repositories/question.repositories";
+import { QuizRepository } from "../repositories/quiz.repositories";
 import { ApiError } from "../utils/ApiError";
 import {QuestionType } from "@prisma/client";
 
