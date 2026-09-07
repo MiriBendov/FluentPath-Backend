@@ -15,7 +15,7 @@ export const PasswordResetService = {
 
         await PasswordResetRepository.createResetToken(user.id, tokenHash, expiresAt);
 
-        const resetLink = `https://your-frontend.com/reset-password?token=${token}&id=${user.id}`;
+        const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}&id=${user.id}`;
         await sendResetEmail(user.email, resetLink);
     },
 
